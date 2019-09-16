@@ -2,6 +2,6 @@
 {
     static void Main()
     {
-        System.Diagnostics.Process.Start("CMD.EXE", "Reset.ps1");
+        System.Diagnostics.Process.Start("pwsh", @"c:\dev\WhatsNewInCSharp8\Reset.ps1");
     }
 }
