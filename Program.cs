@@ -1,7 +1,9 @@
-﻿public class Program
+﻿using System.Diagnostics;
+
+class Program
 {
     static void Main()
     {
-        System.Diagnostics.Process.Start("CMD.EXE", "Reset.ps1");
+        Process.Start("pwsh", @"-File c:\dev\WhatsNewInCSharp8\Reset.ps1");
     }
 }
