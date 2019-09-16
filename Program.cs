@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-#nullable enable
-
 class Program
 {
     public static async Task Main()
