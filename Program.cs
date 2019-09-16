@@ -1,121 +1,155 @@
 ﻿using System;
 using System.Linq;
+using ConsumerVehicleRegistration;
+using CommercialRegistration;
+using LiveryRegistration;
+
+namespace ConsumerVehicleRegistration
+{
+    public class Car
+    {
+        public int Passengers { get; set; }
+    }
+}
+
+namespace CommercialRegistration
+{
+    public class DeliveryTruck
+    {
+        public int GrossWeightClass { get; set; }
+    }
+}
+
+namespace LiveryRegistration
+{
+    public class Taxi
+    {
+        public int Fares { get; set; }
+    }
+
+    public class Bus
+    {
+        public int Capacity { get; set; }
+        public int Riders { get; set; }
+    }
+}
 
 class Program
 {
     public static void Main()
     {
-        IndicesAndRanges1();
-    }
+        var soloDriver     = new Car();
+        var twoRideShare   = new Car { Passengers = 1 };
+        var threeRideShare = new Car { Passengers = 2 };
+        var fullVan        = new Car { Passengers = 5 };
+        var emptyTaxi      = new Taxi();
+        var singleFare     = new Taxi { Fares = 1 };
+        var doubleFare     = new Taxi { Fares = 2 };
+        var fullVanPool    = new Taxi { Fares = 5 };
+        var lowOccupantBus = new Bus { Capacity = 90, Riders = 15 };
+        var normalBus      = new Bus { Capacity = 90, Riders = 75 };
+        var fullBus        = new Bus { Capacity = 90, Riders = 85 };
 
-    private static string[] words = new string[]
-    {
-                        // index from start    index from end
-            "The",      // 0                   ^9
-            "quick",    // 1                   ^8
-            "brown",    // 2                   ^7
-            "fox",      // 3                   ^6
-            "jumped",   // 4                   ^5
-            "over",     // 5                   ^4
-            "the",      // 6                   ^3
-            "lazy",     // 7                   ^2
-            "dog"       // 8                   ^1
-    };
+        var heavyTruck     = new DeliveryTruck { GrossWeightClass = 7500 };
+        var truck          = new DeliveryTruck { GrossWeightClass = 4000 };
+        var lightTruck     = new DeliveryTruck { GrossWeightClass = 2500 };
 
-    public static void IndicesAndRanges1()
-    {
-        Console.WriteLine(words[^1]);
-    }
+        Console.WriteLine($"The toll for a solo driver is {CalculateToll(soloDriver)}");
+        Console.WriteLine($"The toll for a two ride share is {CalculateToll(twoRideShare)}");
+        Console.WriteLine($"The toll for a three ride share is {CalculateToll(threeRideShare)}");
+        Console.WriteLine($"The toll for a fullVan is {CalculateToll(fullVan)}");
 
-    public static void IndicesAndRanges2()
-    {
-        var lazyDog = words[^2..^0];
-        foreach (var word in lazyDog) Console.Write($"< {word} >");
-    }
+        Console.WriteLine($"The toll for an empty taxi is {CalculateToll(emptyTaxi)}");
+        Console.WriteLine($"The toll for a single fare taxi is {CalculateToll(singleFare)}");
+        Console.WriteLine($"The toll for a double fare taxi is {CalculateToll(doubleFare)}");
+        Console.WriteLine($"The toll for a full van taxi is {CalculateToll(fullVanPool)}");
 
-    public static void IndicesAndRanges3()
-    {
-        var allWords = words[..]; // contains "The" through "dog".
-        var firstPhrase = words[..4]; // contains "The" through "fox"
-        var lastPhrase = words[6..]; // contains "the, "lazy" and "dog"
+        Console.WriteLine($"The toll for a low-occupant bus is {CalculateToll(lowOccupantBus)}");
+        Console.WriteLine($"The toll for a regular bus is {CalculateToll(normalBus)}");
+        Console.WriteLine($"The toll for a bus is {CalculateToll(fullBus)}");
 
-        foreach (var word in allWords) Console.Write($"< {word} >");
-        Console.WriteLine();
-        foreach (var word in firstPhrase) Console.Write($"< {word} >");
-        Console.WriteLine();
-        foreach (var word in lastPhrase) Console.Write($"< {word} >");
-    }
+        Console.WriteLine($"The toll for a truck is {CalculateToll(heavyTruck)}");
+        Console.WriteLine($"The toll for a truck is {CalculateToll(truck)}");
+        Console.WriteLine($"The toll for a truck is {CalculateToll(lightTruck)}");
 
-    public static void IndicesAndRanges4()
-    {
-        Index the = ^3;
-        Console.WriteLine(words[the]);
-
-        Range phrase = 1..4;
-        var text = words[phrase];
-        foreach (var word in text) Console.Write($"< {word} >");
-    }
-
-    public static void IndicesAndRanges5() // Why exclusive and ^0 end of collection
-    {
-        var numbers = Enumerable.Range(0, 100).ToArray();
-        int x = 12;
-        int y = 25;
-        int z = 36;
-
-        Console.WriteLine("===================== ^0 is the same as Length.     =>");
-        Console.WriteLine($"{numbers[^x]} is the same as {numbers[numbers.Length - x]}");
-        Console.WriteLine($"{numbers[x..y].Length} is the same as {y - x}");
-        Console.WriteLine();
-
-        Console.WriteLine("===================== Consecutive disjoint sequences.     =>");
-        Console.WriteLine("numbers[x..y] and numbers[y..z] are consecutive and disjoint:");
-        Span<int> x_y = numbers[x..y];
-        Span<int> y_z = numbers[y..z];
-        Console.WriteLine($"\tnumbers[x..y] is {x_y[0]} through {x_y[^1]}, numbers[y..z] is {y_z[0]} through {y_z[^1]}");
-        Console.WriteLine();
-
-        Console.WriteLine("===================== Remove elements from both ends.     =>");
-        Console.WriteLine("numbers[x..^x] removes x elements at each end:");
-        Span<int> x_x = numbers[x..^x];
-        Console.WriteLine($"\tnumbers[x..^x] starts with {x_x[0]} and ends with {x_x[^1]}");
-        Console.WriteLine();
-
-        Console.WriteLine("===================== Incomplete sequences imply 0, ^0    =>");
-        Console.WriteLine("numbers[..x] means numbers[0..x] and numbers[x..] means numbers[x..^0]");
-        Span<int> start_x = numbers[..x];
-        Span<int> zero_x = numbers[0..x];
-        Console.WriteLine($"\t{start_x[0]}..{start_x[^1]} is the same as {zero_x[0]}..{zero_x[^1]}");
-        Span<int> z_end = numbers[z..];
-        Span<int> z_zero = numbers[z..];
-        Console.WriteLine($"\t{z_end[0]}..{z_end[^1]} is the same as {z_zero[0]}..{z_zero[^1]}");
-        Console.WriteLine();
-    }
-
-    public static void IndicesAndRanges6()
-    {
-        int[] sequence = Enumerable.Range(0, 1000).Select(x => (int)(Math.Sqrt(x) * 100)).ToArray();
-
-        for (int start = 0; start < sequence.Length; start += 100)
+        try
         {
-            Range r = start..(start + 10);
-            var (min, max, average) = MovingAverage(sequence, r);
-            Console.WriteLine($"From {r.Start} to {r.End}:    \tMin: {min},\tMax: {max},\tAverage: {average}");
+            CalculateToll("this will fail");
         }
-
-        for (int start = 0; start < sequence.Length; start += 100)
+        catch (ArgumentException)
         {
-            Range r = ^(start + 10)..^start;
-            var (min, max, average) = MovingAverage(sequence, r);
-            Console.WriteLine($"From {r.Start} to {r.End}:  \tMin: {min},\tMax: {max},\tAverage: {average}");
+            Console.WriteLine("Caught an argument exception when using the wrong type");
         }
-
-        (int min, int max, double average) MovingAverage(int[] subSequence, Range range) =>
-            (
-                subSequence[range].Min(),
-                subSequence[range].Max(),
-                subSequence[range].Average()
-            );
+        try
+        {
+            CalculateToll(null!);
+        }
+        catch (ArgumentNullException)
+        {
+            Console.WriteLine("Caught an argument exception when using null");
+        }
     }
+
+    public static decimal CalculateToll(object vehicle) =>
+
+        vehicle switch
+        {
+            Car _ => 2.00m,
+            Taxi _ => 3.50m,
+            Bus _ => 5.00m,
+            DeliveryTruck _ => 10.00m,
+            { } => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
+            null => throw new ArgumentNullException(nameof(vehicle))
+        };
+
+    // Cars and taxis with no passengers pay an extra $0.50.
+    // Cars and taxis with two passengers get a 0.50 discount.
+    // Cars and taxis with three or more passengers get a $1.00 discount.
+    // Buses that are less than 50% full pay an extra $2.00.
+    // Buses that are more than 90% full get a $1.00 discount.
+    // Use nested switches
+
+    #region Advanced
+    private static bool IsWeekDay(DateTime timeOfToll) =>
+        timeOfToll.DayOfWeek switch // simplify
+        {
+            DayOfWeek.Monday    => true,
+            DayOfWeek.Tuesday   => true,
+            DayOfWeek.Wednesday => true,
+            DayOfWeek.Thursday  => true,
+            DayOfWeek.Friday    => true,
+            DayOfWeek.Saturday  => false,
+            DayOfWeek.Sunday    => false,
+            _                   => throw new Exception("Never here")
+        };
+
+    private enum TimeBand
+    {
+        MorningRush,
+        Daytime,
+        EveningRush,
+        Overnight
+    }
+
+    private static TimeBand GetTimeBand(DateTime timeOfToll)
+    {
+        int hour = timeOfToll.Hour;
+        if (hour < 6)       return TimeBand.Overnight;
+        else if (hour < 10) return TimeBand.MorningRush;
+        else if (hour < 16) return TimeBand.Daytime;
+        else if (hour < 20) return TimeBand.EveningRush;
+        else                return TimeBand.Overnight;
+    }
+
+    public decimal PeakTimePremium(DateTime timeOfToll, bool inbound) =>
+                (IsWeekDay(timeOfToll), GetTimeBand(timeOfToll), inbound) switch
+                {
+                    (true, TimeBand.Overnight, _)       => 0.75m,
+                    (true, TimeBand.Daytime, _)         => 1.5m,
+                    (true, TimeBand.MorningRush, true)  => 2.0m,
+                    (true, TimeBand.EveningRush, false) => 2.0m,
+                    (_, _, _)                           => 1.0m,
+                };
+    #endregion
 
 }
