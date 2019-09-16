@@ -1,11 +1,11 @@
 ﻿using System;
 
-internal class ResourceHog : IDisposable
+internal ref struct ResourceHog
 {
     private string name;
     private bool beenDisposed;
 
-    public ResourceHog(string name) => this.name = name;
+    public ResourceHog(string name, bool beenDisposed = false) => (this.name, this.beenDisposed) = (name, beenDisposed);
 
     public void Dispose()
     {
