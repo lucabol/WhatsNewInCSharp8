@@ -1,7 +1,20 @@
-﻿public class Program
+﻿using System;
+
+public struct Coords<T>
+{
+    public T X;
+    public T Y;
+}
+
+public class Program
 {
     static void Main()
     {
-        System.Diagnostics.Process.Start("pwsh", @"c:\dev\WhatsNewInCSharp8\Reset.ps1");
+        Span<Coords<int>> coordinates = stackalloc[]
+        {
+            new Coords<int> { X = 0, Y = 0 },
+            new Coords<int> { X = 0, Y = 3 },
+            new Coords<int> { X = 4, Y = 0 }
+        };
     }
 }
