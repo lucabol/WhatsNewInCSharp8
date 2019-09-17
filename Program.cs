@@ -102,8 +102,8 @@ class Program
             null => throw new ArgumentNullException(nameof(vehicle))
         };
 
-    // Cars and taxis with two passengers get a 0.50 discount.
-    // Cars and taxis with three or more passengers get a $1.00 discount.
+    // Cars with two passengers get a 0.50 discount.
+    // Cars with three or more passengers get a $1.00 discount.
     // Buses that are more than 90% full get a $1.00 discount.
     // Use nested switches
 
