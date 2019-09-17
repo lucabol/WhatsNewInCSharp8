@@ -82,7 +82,7 @@ class Program
         }
         try
         {
-            CalculateToll(null!);
+            CalculateToll(null);
         }
         catch (ArgumentNullException)
         {
