@@ -1,7 +1,18 @@
-﻿public class Program
+﻿using System;
+using System.Collections.Generic;
+
+public class Program
 {
     static void Main()
     {
-        System.Diagnostics.Process.Start("pwsh", @"c:\dev\WhatsNewInCSharp8\Reset.ps1");
+        List<int> numbers = null;
+        int? i = null;
+
+        numbers ??= new List<int>();
+        numbers.Add(i ??= 17);
+        numbers.Add(i ??= 20);
+
+        Console.WriteLine(string.Join(' ', numbers));
+        Console.WriteLine(i);
     }
 }
