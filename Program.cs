@@ -6,7 +6,10 @@ class Program
 {
     public static async Task Main()
     {
-        await AsyncStream();
+        await foreach (var number in GenerateSequence())
+        {
+            Console.WriteLine($"The time is {DateTime.Now:hh:mm:ss}. Retrieved {number}");
+        }
     }
 
     internal static async IAsyncEnumerable<int> GenerateSequence()
@@ -17,14 +20,6 @@ class Program
             if (i % 3 == 0)
                 await Task.Delay(2000);
             yield return i;
-        }
-    }
-
-    public async static Task AsyncStream()
-    {
-        await foreach (var number in GenerateSequence())
-        {
-            Console.WriteLine($"The time is {DateTime.Now:hh:mm:ss}. Retrieved {number}");
         }
     }
 }
