@@ -87,7 +87,7 @@ class Program
         Span<int> zero_x = numbers[0..x];
         Console.WriteLine($"\t{start_x[0]}..{start_x[^1]} is the same as {zero_x[0]}..{zero_x[^1]}");
         Span<int> z_end = numbers[z..];
-        Span<int> z_zero = numbers[z..];
+        Span<int> z_zero = numbers[z..^0];
         Console.WriteLine($"\t{z_end[0]}..{z_end[^1]} is the same as {z_zero[0]}..{z_zero[^1]}");
         Console.WriteLine();
     }
