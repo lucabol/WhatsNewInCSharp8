@@ -4,7 +4,9 @@ class Program
 {
     static void Main(string[] args)
     {
-        NullableRefTypes();
+        Person luca = new Person("Luca", "Bolognese");
+        var length = GetLengthOfMiddleName(luca);
+        Console.WriteLine(length);
     }
 
     internal class Person
@@ -26,13 +28,5 @@ class Program
     {
         string middleName = p.MiddleName;
         return middleName.Length;
-    }
-
-
-    static void NullableRefTypes()
-    {
-        Person miguel = new Person("Luca", "Bolognese");
-        var length = GetLengthOfMiddleName(miguel);
-        Console.WriteLine(length);
     }
 }
