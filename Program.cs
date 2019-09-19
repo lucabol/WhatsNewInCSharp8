@@ -77,6 +77,12 @@ class Program
             handle.count = 0;
             handle = null;
         }
+
+        internal static void DisallowNullSample()
+        {
+            MyHandle handle = null;
+            DisallowNull.DisposeAndClear(ref handle);
+        }
     }
 
     #endregion
