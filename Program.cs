@@ -34,6 +34,7 @@ class Program
 
     #region Advanced
 
+    /* NotNull constraint */
     static void NotNullConstraint()
     {
         Exec((string)null);
@@ -46,6 +47,7 @@ class Program
         }
     }
 
+    /* AllowNull attribute */
     class Employee
     {
         private string _innerValue = string.Empty;
@@ -68,6 +70,7 @@ class Program
         Console.WriteLine(c.FirstName.Length);
     }
 
+    /* DisallowNull attribute */
     class MyHandle { public int count { get; set; } }
 
     static class DisallowNull
