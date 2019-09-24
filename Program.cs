@@ -118,5 +118,70 @@ class Program
             Console.WriteLine(nullArray.Length); // Safe!
         }
     }
+
+    /* MaybeNullWhen(bool) and NotNullWhen(bool) */
+
+#nullable enable
+    public class MyString
+    {
+        // True when 'value' is null
+        public static bool IsNullOrEmpty(string? value)
+        {
+            if (value == null) return true; else return false;
+        }
+    }
+
+    public class MyVersion
+    {
+        // If it parses successfully, the Version will not be null.
+        public static bool TryParse(string? input, out Version? version)
+        {
+            version = new Version();
+            return true;
+        }
+    }
+
+    public class MyQueue<T>
+    {
+        // 'result' could be null if we couldn't Dequeue it.
+        public bool TryDequeue(out T result)
+        {
+            result = default(T)!;
+            return true;
+        }
+    }
+
+    static void MaybeNutNullConditional(string? s)
+    {
+        if (MyString.IsNullOrEmpty(s))
+        {
+            // This would generate a warning:
+            //Console.WriteLine(s.Length); // Safe
+            return;
+        }
+
+        //Console.WriteLine(s.Length); // Safe!
+
+        if (!MyVersion.TryParse(s, out var version))
+        {
+            // This would generate a warning:
+            // Console.WriteLine(version.Major);
+            return;
+        }
+
+        //Console.WriteLine(version.Major); // Safe!
+
+        var q = new MyQueue<string>();
+
+        if (!q.TryDequeue(out var s1))
+        {
+            // This would generate a warning:
+            // Console.WriteLine(s1.Length);
+            return;
+        }
+
+        //Console.WriteLine(s.Length); // Safe!
+    }
+#nullable restore
     #endregion
 }
