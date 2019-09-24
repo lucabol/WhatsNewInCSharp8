@@ -87,6 +87,36 @@ class Program
             DisallowNull.DisposeAndClear(ref handle);
         }
     }
+    /* return:MaybeNull .. NotNull attributes*/
+    public static class MyArray
+    {
+        // Result is the default of T if no match is found
+        public static T Find<T>(T[] array, Func<T, bool> match)
+        {
+            return default(T);
+        }
 
+#nullable enable
+        // Never gives back a null when called
+        public static void Resize<T>(ref T[]? array, int newSize)
+        {
+            if (array == null)
+                array = new T[] { };
+            else
+                array.CopyTo(array, newSize);
+        }
+
+        internal static void MaybeNullNotNull()
+        {
+            string[] testArray = { "bob" };
+            var value = MyArray.Find<string>(testArray, s => s == "Hello!");
+            Console.WriteLine(value.Length); // Warning: Dereference of a possibly null reference.
+
+            string[]? nullArray = null;
+#nullable restore
+            MyArray.Resize<string>(ref nullArray, 200);
+            Console.WriteLine(nullArray.Length); // Safe!
+        }
+    }
     #endregion
 }
