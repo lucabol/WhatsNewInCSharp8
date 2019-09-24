@@ -204,5 +204,31 @@ class Program
         }
     }
 #nullable restore
+
+    /* DoesNotReturn and DoesNotReturnIf(bool) */
+#nullable enable
+    internal static class ThrowHelper
+    {
+        public static void ThrowArgumentNullException(string arg)
+        {
+        }
+    }
+
+    public static class MyAssertionLibrary
+    {
+        public static void MyAssert(bool condition)
+        {
+        }
+    }
+
+    static void DoesNotReturn()
+    {
+        string? k = null;
+        MyAssertionLibrary.MyAssert(k != null);
+        //Console.WriteLine(k.Length); // Safe!
+        ThrowHelper.ThrowArgumentNullException("bob");
+        //Console.WriteLine(k.Length); // Safe (as not reached)!
+    }
+#nullable restore
     #endregion
 }
