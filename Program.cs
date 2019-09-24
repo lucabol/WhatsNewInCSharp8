@@ -183,5 +183,26 @@ class Program
         //Console.WriteLine(s.Length); // Safe!
     }
 #nullable restore
+
+    /* NotNullIfNotNull(string) attribute */
+
+#nullable enable
+    class MyPath
+    {
+        public static string? GetFileName(string? path) => path == null ? null : "bob";
+    }
+
+    static void PathTest(string? path)
+    {
+        var possiblyNullPath = MyPath.GetFileName(path);
+        // Console.WriteLine(possiblyNullPath.Length); // Unsafe
+
+        if (!string.IsNullOrEmpty(path))
+        {
+            var goodPath = MyPath.GetFileName(path);
+            // Console.WriteLine(goodPath.Length); // Safe!
+        }
+    }
+#nullable restore
     #endregion
 }
