@@ -33,6 +33,7 @@ class Program
 
     #region Advanced
 
+#nullable disable
     /* NotNull constraint */
     static void NotNullConstraint()
     {
